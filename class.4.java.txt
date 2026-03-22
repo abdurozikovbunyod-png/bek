@@ -1,0 +1,13 @@
+import java.util.function.Function;
+
+public class Main {
+    public static void main(String[] args) {
+        Function<Integer, String> checkNumber = n -> n > 0 ? "Положительное число"
+                : n < 0 ? "Отрицательное число"
+                : "Ноль";
+
+        System.out.println(checkNumber.apply(10));  // Положительное число
+        System.out.println(checkNumber.apply(-5));  // Отрицательное число
+        System.out.println(checkNumber.apply(0));   // Ноль
+    }
+}
