@@ -1,0 +1,36 @@
+import java.lang.annotation.*;
+import java.lang.reflect.*;
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.METHOD, ElementType.TYPE})
+@interface DeprecatedEx {
+    String message();
+}
+
+// Пример класса с аннотацией
+@DeprecatedEx(message = "Используйте NewClass вместо этого")
+class OldClass {
+    @DeprecatedEx(message = "Используйте newMethod()")
+    public void oldMethod() {}
+}
+
+// Обработчик
+public class Main {
+    public static void main(String[] args) {
+        checkDeprecated(OldClass.class);
+    }
+
+    public static void checkDeprecated(Class<?> clazz) {
+        if (clazz.isAnnotationPresent(DeprecatedEx.class)) {
+            DeprecatedEx de = clazz.getAnnotation(DeprecatedEx.class);
+            System.out.println("! класс '" + clazz.getSimpleName() + "' устарел – альтернатива: '" + de.message() + "'");
+        }
+
+        for (Method method : clazz.getDeclaredMethods()) {
+            if (method.isAnnotationPresent(DeprecatedEx.class)) {
+                DeprecatedEx de = method.getAnnotation(DeprecatedEx.class);
+                System.out.println("! метод '" + method.getName() + "' устарел – альтернатива: '" + de.message() + "'");
+            }
+        }
+    }
+}
