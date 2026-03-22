@@ -1,0 +1,10 @@
+interface Printable {
+    void print();
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Printable p = () -> System.out.println("Hello, world!");
+        p.print();
+    }
+}
